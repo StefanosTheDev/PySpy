@@ -21,7 +21,7 @@ jobs:
           command: pip install -r backend/requirements.txt  # Adjust as needed
       - run:
           name: Start Server
-          command: python backend/app.py
+          command: python3 backend/app.py
           background: true
       - run:
           name: Check if server is up
