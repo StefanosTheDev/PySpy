@@ -1,6 +1,6 @@
 from flask import Flask
 from Database.db import db
-
+from API.AccountsAPI import accounts_api
 
 app = Flask(__name__)
 
@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./account.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_super_secret_key'
 
+app.register_blueprint(accounts_api)
 
 # Initialize the database
 db.init_app(app)
