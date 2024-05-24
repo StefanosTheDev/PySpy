@@ -7,4 +7,4 @@ Below is a rough draft I put together of a High level Solution of this project. 
 as I learn more about the proper way to develop my first complte AWS integrated project independently. 
 
 
-![HighLevelSolutionDiagram drawio ![HighLevelSolutionDiagram drawio (1)](https://github.com/StefanosTheDev/PySpy/assets/143291618/a3a22284-0019-49cc-9fb9-d94d33af218e)
+![HighLevelSolutionDiagram drawio (2)](https://github.com/StefanosTheDev/PySpy/assets/143291618/7765b479-f6c1-4cbe-8096-5804d69184d2)
