@@ -111,26 +111,6 @@ class test_check_username(unittest.TestCase):
         result = AccountService.check_username(foo)
         self.assertEqual(foo, result)
 
-class test_delete_account_by_id(unittest.TestCase):
-
-    def test_account_id_not_found(self):
-        pass
-    def test_delete_account_isvalid(self):
-        pass
-    def test_delete_error_rollback(self):
-        pass
-
-class test_get_account_by_id(unittest.TestCase):
-
-    def test_get_account_isvalid(self):
-        pass
-
-    def test_get_account_not_found(self):
-        pass
-
-    def test_get_account_exception_error(self):
-        pass
-
 class test_register_account(unittest.TestCase):
     
     def test_register_account_isvalid(self):
@@ -151,6 +131,30 @@ class test_register_account(unittest.TestCase):
     def test_register_account_exception(self):
         pass
 
+
+
+
+
+
+class test_delete_account_by_id(unittest.TestCase):
+
+    def test_account_id_not_found(self):
+        pass
+    def test_delete_account_isvalid(self):
+        pass
+    def test_delete_error_rollback(self):
+        pass
+
+class test_get_account_by_id(unittest.TestCase):
+
+    def test_get_account_isvalid(self):
+        pass
+
+    def test_get_account_not_found(self):
+        pass
+
+    def test_get_account_exception_error(self):
+        pass
 
 
 if __name__ == '__main__':

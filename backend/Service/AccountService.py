@@ -1,5 +1,5 @@
 from GlobalErrorHandling.ServiceException import (
-    UsernameError, PasswordError, EmailInvalidError, NoAccountsFoundError
+    UsernameError, PasswordError, EmailInvalidError, NoAccountsFoundError, UserNotLoggedInError
 )
 from validate_email import validate_email
 from Database.db import db
@@ -46,9 +46,7 @@ class AccountService:
             if not account:
                 raise NoAccountsFoundError("Account ID does not exist")
             return account.json()
-        except NoAccountsFoundError as error:
-            raise error
-        except Exception as error:
+        except (Exception, NoAccountsFoundError) as error:
             raise error
 
     def get_all_accounts():
@@ -58,9 +56,7 @@ class AccountService:
                 raise NoAccountsFoundError('No accounts found in DB')
             accounts_json = [accounts.json() for accounts in accounts] ## create a list of the accounts
             return accounts_json
-        except NoAccountsFoundError as error:
-            raise error
-        except Exception as error:
+        except (Exception, NoAccountsFoundError) as error:
             raise error
         
     def login_account(username, password):
@@ -75,11 +71,9 @@ class AccountService:
                 return account
             else:
                 raise PasswordError('Password does not match this user')
-        except (UsernameError, PasswordError) as error:
+        except (UsernameError, PasswordError, Exception) as error:
             raise error
-        except Exception as error:
-            raise error
-        
+
     def check_username(username):
         try:
             if len(username) <= 5 or len(username) > 12:
@@ -130,3 +124,18 @@ class AccountService:
             raise error
         except Exception as error:
             raise error
+
+    def logout_account():
+        try:
+        # Check if the user is logged in
+            if 'logged_in' in session and session['logged_in']:
+                # Clear the session data
+                session.pop('logged_in', None)
+                session.pop('account_id', None)
+                session.pop('username', None)
+                return {"message": "Successfully logged out"}
+            else:
+                raise UserNotLoggedInError("No user is currently logged in")
+        except (UserNotLoggedInError, Exception) as error:
+            raise error
+ 
