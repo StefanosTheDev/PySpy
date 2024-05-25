@@ -62,23 +62,35 @@ def getAccounts():
     except (NoAccountsFoundError, Exception) as error:
         return jsonify({"error": error})
 
-@accounts_api.put('/accounts/update_account')
-def update_account_by_id():
-    pass
+@accounts_api.put('/accounts/updateAccountById/<int:account_id>')
+def update_account_by_id(account_id):
+    try:
+        # Get the updated data from the request body
+        update_data = request.json
+        
+        # Call the service function to update the account
+        updated_account = AccountService.update_account_by_id(account_id, update_data)
+        
+        return jsonify({"account": updated_account}), 200
+    except (NoAccountsFoundError, UsernameError, PasswordError, EmailInvalidError, Exception) as e:
+        return jsonify({"error": str(e)}), 400
 
 @accounts_api.get('/accounts/getAccountById/<int:account_id>')
 def get_account_by_id(account_id):
     try:
         account = AccountService.get_account_by_id(account_id)
-        return jsonify({"account": account})
+        return jsonify({"account": account.json()})
     except (NoAccountsFoundError, Exception) as error:
         return jsonify({"error": str(error)}), 404
 
-
-@accounts_api.delete('/accounts/deleteAccountById')
-def delete_account_by_id():
-    pass
-
+@accounts_api.delete('/accounts/deleteAccountById/<int:account_id>')
+def delete_account_by_id(account_id):
+    try:
+        AccountService.delete_account_by_id(account_id)
+        return jsonify({"Account Deleted With ID: ": account_id})
+    except (NoAccountsFoundError, Exception) as error:
+        return jsonify({"error": str(error)}) 
+    
 @accounts_api.post('/accounts/logout')
 def logout():
     try:

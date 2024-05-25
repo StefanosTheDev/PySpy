@@ -34,18 +34,37 @@ class AccountService:
                 db.session.delete(user_account)
                 db.session.commit()
                 return user_account
-        except Exception as e:
+        except (Exception, NoAccountsFoundError) as e:
             db.session.rollback()
-            raise
-    def update_account_by_id():
-        pass
+            raise e
+    def update_account_by_id(id, update_data):
+        try:
+            account = AccountModel.query.get(id)
+         
+            # Validate and update the account fields with the new data
+            for key, value in update_data.items():
+                if key == "username":
+                    value = AccountService.check_username(value)
+                elif key == "password":
+                    value = AccountService.check_password(value)
+                elif key == "email":
+                    value = AccountService.check_email(value)
+                if hasattr(account, key):
+                    setattr(account, key, value)
+            # Save the changes to the database
+            db.session.commit()
+
+            return account.json()
+        except (NoAccountsFoundError, UsernameError, PasswordError, EmailInvalidError, Exception) as error:
+            db.session.rollback()  # Rollback in case of validation errors
+            raise error
 
     def get_account_by_id(id):
         try:
             account = AccountModel.query.get(id)
             if not account:
                 raise NoAccountsFoundError("Account ID does not exist")
-            return account.json()
+            return account
         except (Exception, NoAccountsFoundError) as error:
             raise error
 
